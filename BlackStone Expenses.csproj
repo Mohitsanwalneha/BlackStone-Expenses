@@ -332,6 +332,7 @@
     <Content Include="Views\ExpenseMvc\Create.cshtml" />
     <Content Include="Views\ExpenseMvc\Details.cshtml" />
     <Content Include="Views\ExpenseMvc\Edit.cshtml" />
+    <Content Include="Views\ExpenseMvc\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -40,6 +40,13 @@ namespace BlackStone_Expenses.Controllers
             db.SaveChanges();
             return Ok();  
         }
-
+        [HttpDelete]
+        public IHttpActionResult Delete(int id)
+        {
+            var Ex = db.Expenses.Where(m => m.id == id).FirstOrDefault();
+            db.Entry(Ex).State = System.Data.Entity.EntityState.Deleted;
+            db.SaveChanges();
+            return Ok();
+        }
     }
 }

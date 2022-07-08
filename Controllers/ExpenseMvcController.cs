@@ -90,6 +90,35 @@ namespace BlackStone_Expenses.Controllers
             ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
             return View("Edit");
         }
+         public ActionResult Delete(int id)
+        {
+            Expens e = null;
+            client.BaseAddress = new Uri("http://localhost:64815/api/Expenseapi");
+            var response = client.GetAsync("ExpenseApi?id=" + id.ToString());
+            response.Wait();
+            var test = response.Result;
+            if (test.IsSuccessStatusCode)
+            {
+                var display = test.Content.ReadAsAsync<Expens>();
+                display.Wait();
+                e = display.Result;
+            }
+            return View(e);
+        }
+        [HttpPost,ActionName("Delete")]
+        public ActionResult DeleteConfirm(int id)
+        {
+            client.BaseAddress = new Uri("http://localhost:64815/api/Expenseapi");
+            var response = client.DeleteAsync("ExpenseApi/"+id.ToString());
+            response.Wait();
+            var test = response.Result;
+            if (test.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
+            return View("Delete");
+        }
     }
 
 }
