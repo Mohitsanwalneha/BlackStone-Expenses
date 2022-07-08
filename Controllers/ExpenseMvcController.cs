@@ -28,5 +28,24 @@ namespace BlackStone_Expenses.Controllers
 
             return View(Exp_list);
         }
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+            [HttpPost]
+        public ActionResult Create( Expens e)
+        {
+            client.BaseAddress = new Uri("http://localhost:64815/api/Expenseapi");
+            var response = client.PostAsJsonAsync<Expens>("ExpenseApi",e);
+            response.Wait();
+            var test = response.Result;
+            if (test.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
+            return View(e);
+        }
     }
 }

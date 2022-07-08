@@ -17,5 +17,14 @@ namespace BlackStone_Expenses.Controllers
             List<Expens> list = db.Expenses.ToList();
             return Ok(list);
         }
+        [HttpPost]
+        public IHttpActionResult Put(Expens e)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest("Not a valid model");
+            db.Expenses.Add(e);
+            db.SaveChanges();
+            return Ok(); ;
+        }
     }
 }
