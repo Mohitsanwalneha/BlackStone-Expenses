@@ -330,6 +330,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\ExpenseMvc\Index.cshtml" />
     <Content Include="Views\ExpenseMvc\Create.cshtml" />
+    <Content Include="Views\ExpenseMvc\Details.cshtml" />
+    <Content Include="Views\ExpenseMvc\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

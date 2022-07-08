@@ -11,7 +11,6 @@ namespace BlackStone_Expenses.Controllers
     public class ExpenseMvcController : Controller
     {
         HttpClient client =new HttpClient();
-        // GET: ExpenseMvc
         public ActionResult Index()
         {
             List<Expens> Exp_list = new List<Expens>();
@@ -33,7 +32,7 @@ namespace BlackStone_Expenses.Controllers
         {
             return View();
         }
-            [HttpPost]
+        [HttpPost]
         public ActionResult Create( Expens e)
         {
             client.BaseAddress = new Uri("http://localhost:64815/api/Expenseapi");
@@ -47,5 +46,50 @@ namespace BlackStone_Expenses.Controllers
             ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
             return View(e);
         }
+        public ActionResult Details(int id)
+        {
+            Expens e=null;
+            client.BaseAddress = new Uri("http://localhost:64815/api/Expenseapi");
+            var response = client.GetAsync("ExpenseApi?id=" + id.ToString());
+            response.Wait();
+            var test = response.Result;
+            if (test.IsSuccessStatusCode)
+            {
+                var display = test.Content.ReadAsAsync<Expens>();
+                display.Wait();
+                e = display.Result;
+            }
+          return View(e);
+        }
+        public ActionResult Edit(int id)
+        {
+            Expens e = null;
+            client.BaseAddress = new Uri("http://localhost:64815/api/Expenseapi");
+            var response = client.GetAsync("ExpenseApi?id=" + id.ToString());
+            response.Wait();
+            var test = response.Result;
+            if (test.IsSuccessStatusCode)
+            {
+                var display = test.Content.ReadAsAsync<Expens>();
+                display.Wait();
+                e = display.Result;
+            }
+            return View(e);
+        }
+        [HttpPost]
+        public ActionResult Edit(Expens e)
+        {
+            client.BaseAddress = new Uri("http://localhost:64815/api/Expenseapi");
+            var response = client.PutAsJsonAsync<Expens>("ExpenseApi", e);
+            response.Wait();
+            var test = response.Result;
+            if (test.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
+            return View("Edit");
+        }
     }
+
 }
