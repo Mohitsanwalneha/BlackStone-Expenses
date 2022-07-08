@@ -27,6 +27,43 @@ namespace BlackStone_Expenses.Controllers
 
             return View(Exp_list);
         }
+        [HttpPost]
+        public ActionResult Index(string Month,string Year,string Amount)
+        {
+            int Amt;
+            List<Expens> Exp_list = new List<Expens>();
+            client.BaseAddress = new Uri("http://localhost:64815/api/Expenseapi");
+            var response = client.GetAsync("ExpenseApi");
+            response.Wait();
+            var test = response.Result;
+            if (test.IsSuccessStatusCode)
+            {
+                var display = test.Content.ReadAsAsync<List<Expens>>();
+                display.Wait();
+                Exp_list = display.Result;
+            }
+            if (Amount != null)
+            {
+                Amt = int.Parse(Amount);
+                Exp_list = Exp_list.Where(m => m.Amount > Amt).ToList();
+            }
+            else
+            {
+                if (Month != "0" && Year !=null)
+                {
+                    Exp_list = Exp_list.Where(m => m.Month == Month && m.year == Year).ToList();
+                }
+                else if (Month != "0")
+                {
+                    Exp_list = Exp_list.Where(m => m.Month == Month).ToList();
+                }
+                else if (Year != null)
+                {
+                    Exp_list = Exp_list.Where(m => m.year == Year).ToList();
+                }
+            }
+            return View(Exp_list);
+        }
         [HttpGet]
         public ActionResult Create()
         {
@@ -43,7 +80,7 @@ namespace BlackStone_Expenses.Controllers
             {
                 return RedirectToAction("Index");
             }
-            ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
+            ModelState.AddModelError(string.Empty, "Data already present please modify it");
             return View(e);
         }
         public ActionResult Details(int id)

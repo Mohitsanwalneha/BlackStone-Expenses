@@ -29,6 +29,9 @@ namespace BlackStone_Expenses.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest("Not a valid model");
+            var ec = db.Expenses.Where(m => m.Month == e.Month && m.year == e.year);
+            if (ec.Count() > 0)
+                return NotFound();
             db.Expenses.Add(e);
             db.SaveChanges();
             return Ok(); ;

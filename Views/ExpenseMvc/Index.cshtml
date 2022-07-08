@@ -7,8 +7,41 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Add new Expenses", "Create")
 </p>
+<br />
+<form method="post">
+    
+        <label for="Month" class="col-form-label">Month</label>
+        @Html.DropDownList("Month", new List<SelectListItem>() {
+new SelectListItem { Text = "Select", Value = "0"},
+new SelectListItem { Text = "January", Value = "January" },
+new SelectListItem { Text = "Feburary", Value = "Feburary" },
+new SelectListItem { Text = "March", Value = "March" },
+new SelectListItem { Text = "April", Value = "April" },
+new SelectListItem { Text = "May", Value = "May" },
+new SelectListItem { Text = "June", Value = "June" },
+new SelectListItem { Text = "July", Value = "July" },
+new SelectListItem { Text = "August", Value = "August" },
+new SelectListItem { Text = "September", Value = "September" },
+new SelectListItem { Text = "October", Value = "October" },
+new SelectListItem { Text = "November", Value = "November" },
+new SelectListItem { Text = "December", Value = "December" },
+}, htmlAttributes: new { @class = "col-5" })
+
+
+    <label for="Year" class="col-form-label">Year</label>
+    <input type="text" class="" placeholder="Year" name="Year" value="null" id="Year" />
+        <input class="btn" type="submit" value="Search" />
+
+</form>
+<br />
+<form method="post">
+    <label for="Amount" class="col-form-label">Amount</label>
+    <input type="text" class="" placeholder="Amount" name="Amount" id="Year" />
+        <input class="btn" type="submit" value="Search" />
+</form>
+<hr />
 <table class="table">
     <tr>
         <th>
@@ -23,23 +56,24 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Amount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Month)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.year)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Month)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.year)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
 
 </table>
