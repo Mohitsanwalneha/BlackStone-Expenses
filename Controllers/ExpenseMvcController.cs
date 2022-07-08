@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
+using System.Web.ModelBinding;
 using System.Web.Mvc;
 
 namespace BlackStone_Expenses.Controllers
@@ -49,7 +50,7 @@ namespace BlackStone_Expenses.Controllers
             }
             else
             {
-                if (Month != "0" && Year !=null)
+                if (Month != "0" && Year !="0000")
                 {
                     Exp_list = Exp_list.Where(m => m.Month == Month && m.year == Year).ToList();
                 }
@@ -57,7 +58,7 @@ namespace BlackStone_Expenses.Controllers
                 {
                     Exp_list = Exp_list.Where(m => m.Month == Month).ToList();
                 }
-                else if (Year != null)
+                else if (Year != "0000")
                 {
                     Exp_list = Exp_list.Where(m => m.year == Year).ToList();
                 }
@@ -72,6 +73,10 @@ namespace BlackStone_Expenses.Controllers
         [HttpPost]
         public ActionResult Create( Expens e)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(e);
+            }
             client.BaseAddress = new Uri("http://localhost:64815/api/Expenseapi");
             var response = client.PostAsJsonAsync<Expens>("ExpenseApi",e);
             response.Wait();
@@ -80,7 +85,8 @@ namespace BlackStone_Expenses.Controllers
             {
                 return RedirectToAction("Index");
             }
-            ModelState.AddModelError(string.Empty, "Data already present please modify it");
+            else
+                ModelState.AddModelError(string.Empty, "Data already present please modify it");
             return View(e);
         }
         public ActionResult Details(int id)

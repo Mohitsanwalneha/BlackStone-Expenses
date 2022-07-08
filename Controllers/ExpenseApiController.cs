@@ -39,6 +39,8 @@ namespace BlackStone_Expenses.Controllers
         [HttpPut]
         public IHttpActionResult Update(Expens e)
         {
+            if (!ModelState.IsValid)
+                return BadRequest("Not a valid model");
             db.Entry(e).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
             return Ok();  

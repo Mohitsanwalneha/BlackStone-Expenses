@@ -11,12 +11,17 @@ namespace BlackStone_Expenses.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Expens
     {
         public int id { get; set; }
+        [Required]
         public double Amount { get; set; }
+        [Required]
         public string Month { get; set; }
+        [Range(1900,3000)]
+        [Required]
         public string year { get; set; }
     }
 }
